@@ -1,0 +1,16 @@
+rmcb_2022_dev\fifo.o: ..\Components\Src\fifo.c
+rmcb_2022_dev\fifo.o: ../Components/Inc/fifo.h
+rmcb_2022_dev\fifo.o: E:\software\keil\ARM\ARMCC\Bin\..\include\stdint.h
+rmcb_2022_dev\fifo.o: E:\software\keil\ARM\ARMCC\Bin\..\include\stdbool.h
+rmcb_2022_dev\fifo.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h
+rmcb_2022_dev\fifo.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+rmcb_2022_dev\fifo.o: E:\software\keil\ARM\ARMCC\Bin\..\include\stddef.h
+rmcb_2022_dev\fifo.o: ../Core/Inc/FreeRTOSConfig.h
+rmcb_2022_dev\fifo.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+rmcb_2022_dev\fifo.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+rmcb_2022_dev\fifo.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+rmcb_2022_dev\fifo.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
+rmcb_2022_dev\fifo.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+rmcb_2022_dev\fifo.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+rmcb_2022_dev\fifo.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+rmcb_2022_dev\fifo.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
