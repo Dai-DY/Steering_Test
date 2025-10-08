@@ -124,18 +124,18 @@ void chassis_set_command(float vx, float vy, float vw, chassis_follow_t follow) 
 		chassis.command.speed_set[Wheel_ID_list[i]] = chassis.command.chassis_move.car_v;
 		chassis.command.steering_angel_set[Steering_ID_list[i]] = chassis.command.chassis_move.car_yaw;
 	}
-	if (main_control_mode.chassis_control_mode == TOP_WITH_CONTROLLER){
+	if (vw != 0){
 		float wheel_temp_v[5] = {0};
 		float wheel_temp_yaw[5] = {0};
-		wheel_temp_v[1] = +vw;
-		wheel_temp_v[2] = -vw;
-		wheel_temp_v[3] = -vw;
-		wheel_temp_v[4] = +vw;
+		wheel_temp_v[1] = -vw;
+		wheel_temp_v[2] = +vw;
+		wheel_temp_v[3] = +vw;
+		wheel_temp_v[4] = -vw;
 		
-		wheel_temp_yaw[1] = +_CIRCLE_ANGEL;
-		wheel_temp_yaw[2] = -_CIRCLE_ANGEL;
-		wheel_temp_yaw[3] = +_CIRCLE_ANGEL;
-		wheel_temp_yaw[4] = -_CIRCLE_ANGEL;
+		wheel_temp_yaw[1] = -_CIRCLE_ANGEL;
+		wheel_temp_yaw[2] = +_CIRCLE_ANGEL;
+		wheel_temp_yaw[3] = -_CIRCLE_ANGEL;
+		wheel_temp_yaw[4] = +_CIRCLE_ANGEL;
 		
 		for(int i = 1; i <= 4; i++){
 			float vxi = 

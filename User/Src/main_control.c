@@ -65,6 +65,8 @@ void control_mode_switch() {
 				break;
 			
 			case MID:			
+				main_control_mode.control_mode = CONTROLLER_MODE;
+				break;
 			case DOWN:
 				main_control_mode.control_mode = OFF_MODE;
 				break;
@@ -88,12 +90,11 @@ void chassis_target_send() {
 	// send target about vx and vy (which is relative to gimbal)
 	switch(main_control_mode.control_mode) {
 		case CONTROLLER_MODE:
-		chassis_set_command(control.channel[1] *2500,
-												control.channel[0] *2500,
-									      0,
-												FOLLOW_OFF);
-		break;
-		
+			chassis_set_command(control.channel[1] *2500,
+													control.channel[0] *2500,
+													control.channel[2] * 1500,
+													FOLLOW_OFF);
+			break;
 		case MOUSE_KEY_MODE:
 		case OFF_MODE:
 		default:
