@@ -65,7 +65,7 @@ void control_mode_switch() {
 				break;
 			
 			case MID:			
-				main_control_mode.control_mode = CONTROLLER_MODE;
+				main_control_mode.control_mode = MOUSE_KEY_MODE;
 				break;
 			case DOWN:
 				main_control_mode.control_mode = OFF_MODE;
@@ -96,9 +96,14 @@ void chassis_target_send() {
 													FOLLOW_OFF);
 			break;
 		case MOUSE_KEY_MODE:
+			chassis_set_command(control.channel[1] *2500,
+													control.channel[0] *2500,
+													1000,
+													FOLLOW_OFF);
+			break;
 		case OFF_MODE:
 		default:
-		chassis_off();
+			chassis_off();
 			break;
 	}
 }

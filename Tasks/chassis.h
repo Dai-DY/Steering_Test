@@ -52,7 +52,6 @@ typedef struct {
 extern chassis_t chassis;
 
 
-
 void chassis_task(void *args);
 void chassis_off(void);
 void chassis_info_get(chassis_info_t *info);

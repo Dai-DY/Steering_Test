@@ -9,6 +9,7 @@ extern thread_status_t thread_status;
 chassis_t chassis;
 
 int init_delta_angle = 0;
+float chassic_angel = 0.0f;
 // ***************************************** Begin of Helping *****************************************//
 /**
 * @breif  calculate the angle between the direction of one armor and gimbal
@@ -66,7 +67,8 @@ float calculateShortestDistance(float yaw_now_360, float yaw_set_360,float* reve
 
 // ***************************************** Begin of Init*********************************************//
 void chassis_init(void) {
-	chassis.info.gimbal_angle = 0.f;
+	chassic_angel = attitude.yaw; 
+	chassis.info.gimbal_angle = chassic_angel;
 
 	chassis.info.vx_set = 0.f;
 	chassis.info.vy_set = 0.f;
@@ -168,7 +170,13 @@ void chassis_set_command(float vx, float vy, float vw, chassis_follow_t follow) 
 // ***************************************** End of Set*********************************************//
 
 void chassis_info_update(void) {
-	chassis.info.gimbal_angle = 0;
+	
+	if(main_control_mode.control_mode==CONTROLLER_MODE){
+		chassic_angel = attitude.yaw;
+		chassis.info.gimbal_angle = attitude.yaw - chassic_angel;
+	} 
+	
+	if(main_control_mode.control_mode==MOUSE_KEY_MODE)  chassis.info.gimbal_angle = chassic_angel- attitude.yaw;
 	
 	ZeroCheck_cal();
 	
@@ -212,7 +220,7 @@ void chassis_info_get(chassis_info_t *info){
 	memcpy(info, &chassis.info, sizeof(chassis_info_t));
 }
 void chassis_excute(void) {
-	if (!control.online){
+	if (!control.online || main_control_mode.control_mode == OFF_MODE){
 		for (int i = 1; i <= 4; i ++){
 			CAN1_MotorCurrents[i] = 0;
 		}
