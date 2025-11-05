@@ -877,11 +877,6 @@
               <FileType>1</FileType>
               <FilePath>..\Components\Src\CAN_send.c</FilePath>
             </File>
-            <File>
-              <FileName>zero_check.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Components\Src\zero_check.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>

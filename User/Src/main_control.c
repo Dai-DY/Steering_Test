@@ -2,8 +2,6 @@
 #include "board_transmit.h"
 #include "comm.h"
 
-
-chassis_info_t chassis_info;
 gimbal_info_t receiver_from_chassis;
 shoot_info_t receiver_from_gimbal;
 control_mode_t key_mouse_control_mode;
@@ -37,8 +35,6 @@ void main_control_init() {
 	key_mouse_control_mode.Top_enable_fast = 0;
 	key_mouse_control_mode.x_key_pressed = 1;
 	v_w_direction=-1;
-	//main_control_mode.heat_spare = 1;
-	//main_control_mode.gimbal_mode = KEEP_STILL;
 	
 	thread_status.mainctrl = THREAD_OK;
     while(!(thread_status.uartcom  && //waiting till all task threads are initialized
@@ -90,15 +86,15 @@ void chassis_target_send() {
 	// send target about vx and vy (which is relative to gimbal)
 	switch(main_control_mode.control_mode) {
 		case CONTROLLER_MODE:
-			chassis_set_command(control.channel[1] *2500,
-													control.channel[0] *2500,
-													control.channel[2] * 1500,
-													FOLLOW_OFF);
+			chassis_set_command(control.channel[1] *_CHASSIS_MAX_VX_SPEED,
+													control.channel[0] *_CHASSIS_MAX_VY_SPEED,
+													0,
+													FOLLOW_ON_0_DEGREE);
 			break;
 		case MOUSE_KEY_MODE:
-			chassis_set_command(control.channel[1] *2500,
-													control.channel[0] *2500,
-													1000,
+			chassis_set_command(control.channel[1] *_CHASSIS_MAX_VX_SPEED,
+													control.channel[0] *_CHASSIS_MAX_VY_SPEED,
+													_CHASSIS_MAX_VR_SPEED,
 													FOLLOW_OFF);
 			break;
 		case OFF_MODE:

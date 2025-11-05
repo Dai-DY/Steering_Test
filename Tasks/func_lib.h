@@ -34,5 +34,6 @@ else if((val) >= (max))\
 #define cushionk(a, b, k) ((a) + (k) * ((b) - (a)))
 #define DEG2R(x) ((x)*PI /180.0f)
 #define R2DEG(x) ((x)*180.0f /PI)
+#define DEG2CODE(x) ((x)*22.7556f)
 
 #endif

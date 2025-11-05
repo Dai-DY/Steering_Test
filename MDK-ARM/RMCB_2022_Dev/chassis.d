@@ -74,4 +74,3 @@ rmcb_2022_dev\chassis.o: ../Tasks/chassis.h
 rmcb_2022_dev\chassis.o: ../Tasks/shoot.h
 rmcb_2022_dev\chassis.o: ../Tasks/gimbal.h
 rmcb_2022_dev\chassis.o: ../Tasks/power_control.h
-rmcb_2022_dev\chassis.o: ../Components/Inc/zero_check.h

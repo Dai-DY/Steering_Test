@@ -2,7 +2,23 @@
 #include "motor.h"
 #include "comm.h"
 
+cap_t cap;
 extern CAN_HandleTypeDef hcan1, hcan2;
+
+static inline float cap_get_energy(float C_eff, float v_cap, float v_min) {
+	return 0.5f * C_eff * (v_cap*v_cap - v_min*v_min);
+}
+
+static inline float clamp(float x, float lo, float hi) {
+	return (x < lo) ? lo : ((x > hi) ? hi : x);
+}
+
+static inline float linear_ramp(float x, float lo, float hi) {
+	if(lo == hi) return (x >= hi) ? 1.0f : 0.0f;
+	return clamp((x-lo) / (hi-lo), 0.0f, 1.0f);
+}
+
+void cap_info_update(void);
 
 void CanMotor_Init(void)
 {
@@ -28,6 +44,17 @@ void CanMotor_Init(void)
 		HAL_CAN_ActivateNotification(&hcan2, CAN_IT_RX_FIFO0_MSG_PENDING);
 		HAL_CAN_Start(&hcan1);
 		HAL_CAN_Start(&hcan2);
+		
+		cap_cfg_t *cfg = &cap.cfg;
+	
+		cfg->C_eff = CAP_C_EFF;	// [F]
+		cfg->V_min = CAP_V_MIN;	// [V]
+		cfg->V_max = CAP_V_MAX;	// [V]
+		
+		cfg->max_energy = cap_get_energy(cfg->C_eff, cfg->V_max, cfg->V_min);
+		cfg->alpha = 0.20f;
+		
+		cap.info.V_ema = cfg->V_min;
 }
 
 void CanMotor_ESCDataUnpack(uint8_t const *data, CanMotor *motor)
@@ -96,6 +123,7 @@ void CAP_Unpack(const uint8_t * packet){
 	int16_t * buf_ = (int16_t *) packet;
 	P_Cha = buf_[0] > 1 ? (float) buf_[0]/10.0f : 1.0f;
 	V_Cap = (float)buf[1]/100.0f;
+	//cap_info_update();
 }
 
 
@@ -103,20 +131,15 @@ void SendCapData(){
 #if WULIE_CAPACITY
 	static uint8_t buf[8];
 	uint16_t power;
-	if(reference_power_heat.chassis_power_buffer>=20u )	{
-	  power = (uint16_t )(reference_robot_state.chassis_power_limit+reference_power_heat.chassis_power_buffer * 0.2f)*100;//reference_robot_state.chassis_power_limit
+	if(reference_power_heat.chassis_power_buffer>=10 )	{
+	  power = (uint16_t )(reference_robot_state.chassis_power_limit+reference_power_heat.chassis_power_buffer * 0.2f)*100;
 	}
 	else{
-	  power = (uint16_t )(reference_robot_state.chassis_power_limit+(reference_power_heat.chassis_power_buffer-15)*0.2f)*100;//
+	  power = (uint16_t )reference_robot_state.chassis_power_limit*100;
 	}
-	if(reference_robot_state.chassis_power_limit == 255) {
-			power = 8000.0f;
+	if(reference_robot_state.chassis_power_limit > 160) {
+			power = 16000.0f;
 		}
-	
-//	if(reference_robot_state.chassis_power_limit > 160) {
-//		power = 16000.0f;
-//	}
-//	power = 10000.0f;//power over control
 	buf[0]=power>>8u;
 	buf[1]=power;
 	static uint32_t mailbox;
@@ -132,4 +155,19 @@ void SendCapData(){
 	static CAN_TxHeaderTypeDef header={.StdId=0x210,.IDE = CAN_ID_STD, .RTR=CAN_RTR_DATA,.DLC=8};
 	HAL_CAN_AddTxMessage(&hcan1,&header,(uint8_t *)&buf,&mailbox);
 #endif
+}
+
+void cap_info_update(void) {
+	cap_cfg_t *cfg = &cap.cfg;
+	cap_feedback_t *fb = &cap.feedback;
+	cap_info_t *info = &cap.info;
+	
+	info->V_Cap = fb->V_Cap;
+	info->V_ema = info->V_ema + cfg->alpha * (info->V_Cap - info->V_ema);
+	info->V_ema = clamp(info->V_ema, cfg->V_min, cfg->V_max);
+	
+	info->energy = cap_get_energy(cfg->C_eff, info->V_ema, cfg->V_min);
+	info->soc = linear_ramp(info->energy, 0.0f, cfg->max_energy);
+	
+	info->last_receive_time = time();
 }

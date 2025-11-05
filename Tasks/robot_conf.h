@@ -13,28 +13,40 @@
 // ******** begin macro of motor ID ******** //
 
 #define CHA_RF_ID 2
-#define CHA_LF_ID 1
+#define CHA_LF_ID 3
 #define CHA_LB_ID 4
-#define CHA_RB_ID 3
+#define CHA_RB_ID 1
 
 #define STEERING_RF_ID 5
-#define STEERING_LF_ID 8
+#define STEERING_LF_ID 6
 #define STEERING_LB_ID 7
-#define STEERING_RB_ID 6
+#define STEERING_RB_ID 8
 #define STEERING_INDEX_DELTA 5
 
 #define FRIC1_ID 2 // left friction wheel
 #define FRIC2_ID 1 // right friction wheel
 #define PRWHEEL_ID 3 // puller wheel
-#define PITCH_ID 6
-#define YAW_ID 5
+#define PITCH_ID 5
+#define YAW_ID 6
 
 // ******** end macro of motor ID ******** //
 
+// ******** end macro of capacitor ******** //
+
+#define CAP_C_EFF 20.0f/3.0f
+#define CAP_V_MIN 13.0f
+#define CAP_V_MAX 24.0f
+
+#define CAP_SOC_GATE 0.40f
+#define CAP_V_GATE CAP_V_MIN + 1.0f
+#define CAP_P_INST 200.0f
+
+// ******** end macro of capacitor ******** //
 
 // ******** begin macro of chassis ******** //
 
 #define CHASSIS_ON 1
+#define POWER_CONTROL_ON 1
 
 #define MECANUM 1
 #define OMNI 0
@@ -42,30 +54,33 @@
 #define ACC_ALLOWED 10.0f // acceleration limit of chassis
 #define DEC_ALLOWED 10.0f // deceleration limit of chassis
 
-#define YAW_OFFSET_FORWARD 2875 // 0-8192, yaw value when gimbal is directed at armor 0, which is the positive forward direction of chassis
-#define STEERING_RF_OFFSET 3406
-#define STEERING_LF_OFFSET 124
-#define STEERING_LB_OFFSET 6150
-#define STEERING_RB_OFFSET 1440
+#define YAW_OFFSET_FORWARD 6109 // 0-8192, yaw value when gimbal is directed at armor 0, which is the positive forward direction of chassis
+#define STEERING_RF_OFFSET 2009
+#define STEERING_LF_OFFSET 2079
+#define STEERING_LB_OFFSET 1379
+#define STEERING_RB_OFFSET 6828
 
 /* chassis maximum translation speed, unit is mm/s */
-#define _CHASSIS_MAX_VX_SPEED 1500.0f
-#define _CHASSIS_MAX_VY_SPEED 1500.0f
+#define _CHASSIS_MAX_VX_SPEED 4500.0f
+#define _CHASSIS_MAX_VY_SPEED 4500.0f
 /* chassis maximum rotation speed, unit is degree/s */
-#define _CHASSIS_MAX_VR_SPEED 920.0f
+#define _CHASSIS_MAX_VR_SPEED 1500.0f
 
 // PID of wheels
 #define WHEEL_RF_PID 18, 0, 0.2, 1500, 250, 8000, 0, 1
-#define WHEEL_LF_PID 18, 0, 0.2, 1500, 250, 8000, 0, 1
+#define WHEEL_LF_PID 23, 0.3, 0.2, 1500, 250, 8000, 0, 1
 #define WHEEL_LB_PID 18, 0, 0.2, 1500, 250, 8000, 0, 1
 #define WHEEL_RB_PID 18, 0, 0.2, 1500, 250, 8000, 0, 1
 
-#define STEERING_RF_FSFC 2500, 0, 0, 4000, 8000, 1
-#define STEERING_LF_FSFC 2500, 0, 0, 4000, 8000, 1
-#define STEERING_LB_FSFC 2500, 0, 0, 4000, 8000, 1
-#define STEERING_RB_FSFC 2500, 0, 0, 4000, 8000, 1
+#define STEERING_RF_FSFC 50, 5, 0.2, 4000, 8000, 1
+#define STEERING_LF_FSFC 50, 5, 0.2, 4000, 8000, 1
+#define STEERING_LB_FSFC 50, 5, 0.2, 4000, 8000, 1
+#define STEERING_RB_FSFC 50, 5, 0.2, 4000, 8000, 1
 #define ROTATE_PID 		3, 0, 10, 1000, 1200, 200, 0, 1 // PID of following
+#define YAW_DIR 100,0,0,4000,8000,1
 
+#define CHASSIS_CTRL_DT 0.005
+#define K_Low 0.03
 // ******** end macro of chassis ******** //
 
 

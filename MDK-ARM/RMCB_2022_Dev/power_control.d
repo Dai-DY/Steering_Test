@@ -1,14 +1,15 @@
 rmcb_2022_dev\power_control.o: ..\Tasks\power_control.c
 rmcb_2022_dev\power_control.o: ..\Tasks\power_control.h
-rmcb_2022_dev\power_control.o: ../Components/Inc/motor.h
-rmcb_2022_dev\power_control.o: E:\software\keil\ARM\ARMCC\Bin\..\include\stdint.h
+rmcb_2022_dev\power_control.o: ..\Tasks\robot_conf.h
 rmcb_2022_dev\power_control.o: ..\Tasks\comm.h
 rmcb_2022_dev\power_control.o: ..\Tasks\func_lib.h
 rmcb_2022_dev\power_control.o: ../Components/Inc/components.h
 rmcb_2022_dev\power_control.o: ../Components/Inc/led.h
+rmcb_2022_dev\power_control.o: E:\software\keil\ARM\ARMCC\Bin\..\include\stdint.h
 rmcb_2022_dev\power_control.o: ../Components/Inc/controller.h
 rmcb_2022_dev\power_control.o: ../Components/Inc/imu.h
 rmcb_2022_dev\power_control.o: ../Components/Inc/ist8310driver.h
+rmcb_2022_dev\power_control.o: ../Components/Inc/motor.h
 rmcb_2022_dev\power_control.o: ../Components/Inc/pwm.h
 rmcb_2022_dev\power_control.o: ../Core/Inc/main.h
 rmcb_2022_dev\power_control.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
@@ -74,6 +75,3 @@ rmcb_2022_dev\power_control.o: ../Components/Inc/os.h
 rmcb_2022_dev\power_control.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
 rmcb_2022_dev\power_control.o: ../Tasks/gimbal.h
 rmcb_2022_dev\power_control.o: ../Tasks/power_control.h
-rmcb_2022_dev\power_control.o: ..\Tasks\board_transmit.h
-rmcb_2022_dev\power_control.o: ../Components/Inc/transmit.h
-rmcb_2022_dev\power_control.o: ../Components/Inc/CAN_send.h

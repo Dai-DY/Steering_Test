@@ -47,29 +47,43 @@ void CanMotor_Init(void);
 void CanMotor_SendCurrent(CAN_Motor_Selection selection);
 void CanMotor_ESCDataUnpack(uint8_t const *data, CanMotor *motor);
 
-#if WULIE_CAPACITY
-//static inline void CAP_Unpack(const uint8_t * packet){
-//	uint16_t * buf = (uint16_t *) packet;
-//	int16_t * buf_ = (int16_t *)packet;
-//	P_Cha = (float)buf_[0]/10.0f;
-//	V_Cap = (uint16_t)buf[1]/100.0f;
-//}
-#else
-static inline void CAP_Unpack(const uint8_t * packet){
-  uint8_t* buf = (uint8_t*) &V_Cap;
-	buf[0]=packet[0];
-	buf[1]=packet[1];
-	buf[2]=packet[2];
-	buf[3]=packet[3];
-}
-#endif
+typedef struct {
+	float V_Cap;
+	float P_Cha;
+	uint16_t TotalEnergy;
+	float CWtarget;
+} cap_feedback_t;
 
+typedef struct {
+	float C_eff;			// F
+	float V_min;			// V
+	float V_max;			// V
+	float max_energy;	// J
+	float alpha; 			// filter parameter
+} cap_cfg_t;
 
+typedef struct {
+	float V_Cap;
+	float V_ema;
+	float energy;
+	float soc;
+	uint32_t last_receive_time;
+} cap_info_t;
+
+typedef struct {
+	cap_cfg_t cfg;
+	cap_feedback_t feedback;
+	cap_info_t info;
+} cap_t;
+
+void Cap_Init(void);
 void SendCapData(void);
 void CAP_Unpack(const uint8_t * packet);
 
 static inline void CanMotor_ResetTotalAngle(CanMotor *motor) {
   motor->totalAngle = 0;
 }
+
+extern cap_t cap;
 
 #endif

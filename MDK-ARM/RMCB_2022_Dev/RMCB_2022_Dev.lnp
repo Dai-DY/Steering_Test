@@ -62,7 +62,6 @@
 "rmcb_2022_dev\dm_motor.o"
 "rmcb_2022_dev\transmit.o"
 "rmcb_2022_dev\can_send.o"
-"rmcb_2022_dev\zero_check.o"
 "rmcb_2022_dev\mahonyahrs.o"
 "rmcb_2022_dev\ist8310driver.o"
 "rmcb_2022_dev\bmi088driver.o"
